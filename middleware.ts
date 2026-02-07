@@ -6,10 +6,16 @@ const { auth } = NextAuth(authConfig);
 export default auth((req) => {
     const isLoggedIn = !!req.auth;
     const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard");
+    const user = req.auth?.user;
 
     if (isOnDashboard) {
-        if (isLoggedIn) return; // Allow access
-        return Response.redirect(new URL("/auth/login", req.nextUrl)); // Redirect unauthenticated
+        if (!isLoggedIn) return Response.redirect(new URL("/auth/login", req.nextUrl));
+
+        if (user?.role !== "ADMIN") {
+            return Response.redirect(new URL("/", req.nextUrl));
+        }
+
+        return; // Allow access
     }
 
     // Optional: Redirect logged-in users away from login page
