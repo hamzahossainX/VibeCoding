@@ -38,12 +38,13 @@ export const LoginForm = () => {
 
         startTransition(() => {
             login(values).then((data) => {
-                setError(data?.error);
+                if (data?.error) {
+                    setError(data.error);
+                }
 
-                // Note: Success usually not needed for login as it redirects, 
-                // but if no redirect happening (e.g. wrong creds), we show error.
-                // If success but no redirect (e.g. 2FA), handle here.
-                // For standard login, we can just handle error.
+                if (data?.success && data?.redirectUrl) {
+                    window.location.href = data.redirectUrl;
+                }
             });
         });
     };

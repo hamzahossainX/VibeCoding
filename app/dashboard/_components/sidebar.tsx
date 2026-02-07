@@ -36,8 +36,8 @@ export const Sidebar = () => {
         {
             label: "Customers",
             icon: Users,
-            href: "/dashboard/customers",
-            active: pathname === "/dashboard/customers",
+            href: "/dashboard/users",
+            active: pathname === "/dashboard/users",
         },
         {
             label: "Analytics",
